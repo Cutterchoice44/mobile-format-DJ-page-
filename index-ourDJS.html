@@ -6,17 +6,15 @@
   <title>Cutters Choice DJs</title>
 
   <!-- Bebas Neue font -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
-    rel="stylesheet"
-  >
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 
   <style>
+    /* ─── VARIABLES & RESET ────────────────────────────────────────────────── */
     :root {
-      --brand-teal:   #5A8785;
-      --bg-dark:      #000;
-      --text-light:   #fafafa;
-      --gap:          1rem;
+      --brand-teal: #5A8785;
+      --bg-dark: #000;
+      --text-light: #fafafa;
+      --gap: 1rem;
     }
     *, *::before, *::after {
       box-sizing: border-box;
@@ -51,7 +49,7 @@
       height: auto;
     }
 
-    /* ─── DJ GRID ─────────────────────────────────────────────────────────────── */
+    /* ─── GRID BREAKPOINTS ─────────────────────────────────────────────────── */
     #artists-container {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
@@ -64,38 +62,6 @@
     }
     @media (max-width: 900px) {
       #artists-container { grid-template-columns: repeat(3, 1fr); }
-    }
-
-    /* ─── MOBILE (<=600px) ─────────────────────────────────────────────────── */
-    @media (max-width: 600px) {
-      header {
-        padding: 0.4rem 0.6rem;
-      }
-      header h1 {
-        font-size: 1.6rem;
-        white-space: nowrap;
-      }
-      header img.logo {
-        width: 45px;
-      }
-      #artists-container {
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 0.5rem;
-        padding: 0.5rem;
-      }
-      .card h2 {
-        font-size: 0.8rem; /* reduced on mobile */
-        padding: 0.3rem;
-      }
-      .card .next-show {
-        padding: 0.4rem;
-      }
-      .card .next-show h3 {
-        font-size: 0.8rem;
-      }
-      .card .next-show p {
-        font-size: 0.8rem;
-      }
     }
 
     /* ─── CARD STYLES ──────────────────────────────────────────────────────── */
@@ -117,7 +83,7 @@
     }
     .card img {
       width: 100%;
-      aspect-ratio: 1 / 1;
+      aspect-ratio: 1/1;
       object-fit: cover;
     }
     .card .next-show {
@@ -139,6 +105,45 @@
       line-height: 1.2;
     }
 
+    /* ─── MOBILE OVERRIDES (<=600px) ─────────────────────────────────────── */
+    @media (max-width: 600px) {
+      /* Header tweaks */
+      header {
+        padding: 0.4rem 0.6rem;
+      }
+      header h1 {
+        font-size: 1.6rem;
+        white-space: nowrap;
+      }
+      header img.logo {
+        width: 45px;
+      }
+
+      /* Grid forced 3 columns */
+      #artists-container {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0.5rem;
+        padding: 0.5rem;
+      }
+
+      /* Card title reduced */
+      .card h2 {
+        font-size: 0.8rem;
+        padding: 0.3rem;
+      }
+      /* Next-show padding and text sizes */
+      .card .next-show {
+        padding: 0.4rem;
+      }
+      .card .next-show h3 {
+        font-size: 0.8rem;
+      }
+      .card .next-show p {
+        font-size: 0.8rem;
+      }
+    }
+
+    /* ─── ERROR MESSAGE ────────────────────────────────────────────────────── */
     .error {
       text-align: center;
       color: #f55;
@@ -159,9 +164,9 @@
   </main>
 
   <script>
-    const BASE_URL   = 'https://api.radiocult.fm/api';
+    const BASE_URL = 'https://api.radiocult.fm/api';
     const STATION_ID = 'cutters-choice-radio';
-    const API_KEY    = 'pk_0b8abc6f834b444f949f727e88a728e0';
+    const API_KEY = 'pk_0b8abc6f834b444f949f727e88a728e0';
 
     function normalizeTags(tags) {
       if (Array.isArray(tags)) return tags.map(t => String(t).toLowerCase());
@@ -171,46 +176,45 @@
 
     async function loadArtists() {
       try {
-        const res = await fetch(`${BASE_URL}/station/${STATION_ID}/artists`, { headers: { 'x-api-key': API_KEY } });
+        const res = await fetch(`${BASE_URL}/station/${STATION_ID}/artists`, {
+          headers: { 'x-api-key': API_KEY }
+        });
         if (!res.ok) throw new Error(`API returned ${res.status}`);
 
         const { artists = [] } = await res.json();
         const visible = artists.filter(a => normalizeTags(a.tags).includes('website'));
 
         const container = document.getElementById('artists-container');
-        if (visible.length === 0) {
+        if (!visible.length) {
           const err = document.getElementById('error');
           err.textContent = 'No DJs found with the "website" tag.';
           err.style.display = 'block';
           return;
         }
-        container.innerHTML = '';
 
-        visible.forEach(artist => {
+        container.innerHTML = '';
+        for (let artist of visible) {
           const card = document.createElement('a');
-          card.href = `index_IND_DJ.html?id=${artist.id}`;
           card.className = 'card';
+          card.href = `index_IND_DJ.html?id=${artist.id}`;
 
           const title = document.createElement('h2');
           title.textContent = artist.name;
-          card.appendChild(title);
+          card.append(title);
 
           const img = document.createElement('img');
           img.src = artist.logo?.['512x512'] || artist.logo?.default || '';
           img.alt = artist.name;
-          card.appendChild(img);
+          card.append(img);
 
           const show = document.createElement('div');
           show.className = 'next-show';
-          show.innerHTML = `
-            <h3>Next Scheduled Show</h3>
-            <p id="next-${artist.id}">Loading…</p>
-          `;
-          card.appendChild(show);
+          show.innerHTML = `<h3>Next Scheduled Show</h3><p id="next-${artist.id}">Loading…</p>`;
+          card.append(show);
 
-          container.appendChild(card);
+          container.append(card);
           loadNextShow(artist.id);
-        });
+        }
       } catch (err) {
         console.error('Error loading artists:', err);
         const e = document.getElementById('error');
@@ -221,26 +225,30 @@
 
     async function loadNextShow(artistId) {
       try {
-        const now     = new Date().toISOString();
-        const oneYear = new Date(Date.now() + 365*24*60*60*1000).toISOString();
-        const url     = `${BASE_URL}/station/${STATION_ID}/artists/${artistId}/schedule?startDate=${now}&endDate=${oneYear}`;
-
-        const res = await fetch(url, { headers: { 'x-api-key': API_KEY } });
+        const now = new Date().toISOString();
+        const nextYear = new Date(Date.now() + 365*24*60*60*1000).toISOString();
+        const res = await fetch(
+          `${BASE_URL}/station/${STATION_ID}/artists/${artistId}/schedule?startDate=${now}&endDate=${nextYear}`,
+          { headers: { 'x-api-key': API_KEY } }
+        );
         if (!res.ok) throw new Error(`Schedule API returned ${res.status}`);
 
         const { schedules = [] } = await res.json();
-        const nextEl = document.getElementById(`next-${artist.id}`);
-
-        if (schedules.length > 0) {
-          const dt = new Date(schedules[0].startDateUtc);
-          nextEl.textContent = dt.toLocaleString('en-NZ', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
-        } else {
-          nextEl.textContent = 'TBA';
+        const el = document.getElementById(`next-${artistId}`);
+        if (el) {
+          if (schedules.length) {
+            const dt = new Date(schedules[0].startDateUtc);
+            el.textContent = dt.toLocaleString('en-NZ', {
+              day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+            });
+          } else {
+            el.textContent = 'TBA';
+          }
         }
       } catch (err) {
         console.error(`Error loading schedule for ${artistId}:`, err);
-        const nextEl = document.getElementById(`next-${artist.id}`);
-        if (nextEl) nextEl.textContent = 'Error';
+        const el = document.getElementById(`next-${artistId}`);
+        if (el) el.textContent = 'Error';
       }
     }
 
