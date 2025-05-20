@@ -29,30 +29,29 @@
       font-family: Arial, sans-serif;
       line-height: 1.4;
     }
+
+    /* ─── HEADER ───────────────────────────────────────────────────────────── */
     header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       background: url('https://i.imgur.com/JHiiSW4.png') center/cover no-repeat;
       border-bottom: 5px solid var(--brand-teal);
-      position: relative;
-      padding: 0.8rem 0;
-      text-align: center;
+      padding: 0.5rem 0.8rem;
     }
-    header img.logo {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 160px;
-    }
-    header img.left  { left: 1rem; }
-    header img.right { right: 1rem; }
     header h1 {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 6rem;
+      font-size: 1.8rem;
       color: #fff;
       letter-spacing: 2px;
       text-transform: uppercase;
     }
+    header img.logo {
+      width: 50px;
+      height: auto;
+    }
 
-    /* ─── DJ GRID DESKTOP & TABLET ───────────────────────────────────────── */
+    /* ─── DJ GRID ─────────────────────────────────────────────────────────────── */
     #artists-container {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
@@ -67,40 +66,35 @@
       #artists-container { grid-template-columns: repeat(3, 1fr); }
     }
 
-    /* ─── MOBILE OVERRIDES (<=600px) ─────────────────────────────────────── */
+    /* ─── MOBILE (<=600px) ─────────────────────────────────────────────────── */
     @media (max-width: 600px) {
-      /* Condense header */
       header {
-        padding: 0.4rem 0;
+        padding: 0.4rem 0.6rem;
       }
-      /* Single-line title */
       header h1 {
-        font-size: 3rem;
+        font-size: 1.6rem;
         white-space: nowrap;
       }
-      /* Show only one logo: hide right, center left */
-      header img.left {
-        left: 50%;
-        transform: translate(-50%, -50%);
+      header img.logo {
+        width: 45px;
       }
-      header img.right { display: none; }
-
-      /* Four tight columns for cards on mobile */
       #artists-container {
-        grid-template-columns: repeat(4, 1fr) !important;
+        grid-template-columns: repeat(3, 1fr) !important;
         gap: 0.5rem;
         padding: 0.5rem;
       }
-      /* Smaller card text and headings */
-      .card {
-        font-size: 0.9rem;
-      }
       .card h2 {
-        font-size: 1.4rem;
-        padding: 0.25rem;
+        font-size: 1.2rem;
+        padding: 0.3rem;
       }
       .card .next-show {
-        padding: 0.5rem;
+        padding: 0.4rem;
+      }
+      .card .next-show h3 {
+        font-size: 0.8rem;
+      }
+      .card .next-show p {
+        font-size: 0.8rem;
       }
     }
 
@@ -116,14 +110,14 @@
     .card h2 {
       font-family: 'Bebas Neue', sans-serif;
       color: var(--brand-teal);
-      font-size: 2.1rem;
+      font-size: 2rem;
       text-transform: uppercase;
       padding: 0.5rem;
       border-bottom: 1px solid var(--brand-teal);
     }
     .card img {
       width: 100%;
-      aspect-ratio: 1/1;
+      aspect-ratio: 1 / 1;
       object-fit: cover;
     }
     .card .next-show {
@@ -155,9 +149,8 @@
 
 <body>
   <header>
-    <img src="https://i.imgur.com/72gdPJY.png" alt="Logo" class="logo left">
     <h1>Cutters Choice DJs</h1>
-    <img src="https://i.imgur.com/72gdPJY.png" alt="Logo" class="logo right">
+    <img src="https://i.imgur.com/72gdPJY.png" alt="Logo" class="logo">
   </header>
 
   <main>
@@ -172,23 +165,17 @@
 
     function normalizeTags(tags) {
       if (Array.isArray(tags)) return tags.map(t => String(t).toLowerCase());
-      if (typeof tags === 'string')
-        return tags.split(',').map(t => t.trim().toLowerCase());
+      if (typeof tags === 'string') return tags.split(',').map(t => t.trim().toLowerCase());
       return [];
     }
 
     async function loadArtists() {
       try {
-        const res = await fetch(
-          `${BASE_URL}/station/${STATION_ID}/artists`,
-          { headers: { 'x-api-key': API_KEY } }
-        );
+        const res = await fetch(`${BASE_URL}/station/${STATION_ID}/artists`, { headers: { 'x-api-key': API_KEY } });
         if (!res.ok) throw new Error(`API returned ${res.status}`);
 
         const { artists = [] } = await res.json();
-        const visible = artists.filter(a =>
-          normalizeTags(a.tags).includes('website')
-        );
+        const visible = artists.filter(a => normalizeTags(a.tags).includes('website'));
 
         const container = document.getElementById('artists-container');
         if (visible.length === 0) {
@@ -242,22 +229,17 @@
         if (!res.ok) throw new Error(`Schedule API returned ${res.status}`);
 
         const { schedules = [] } = await res.json();
-        const nextEl = document.getElementById(`next-${artistId}`);
+        const nextEl = document.getElementById(`next-${artist.id}`);
 
         if (schedules.length > 0) {
           const dt = new Date(schedules[0].startDateUtc);
-          nextEl.textContent = dt.toLocaleString('en-NZ', {
-            day: 'numeric',
-            month: 'short',
-            hour: '2-digit',
-            minute: '2-digit'
-          });
+          nextEl.textContent = dt.toLocaleString('en-NZ', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
         } else {
           nextEl.textContent = 'TBA';
         }
       } catch (err) {
         console.error(`Error loading schedule for ${artistId}:`, err);
-        const nextEl = document.getElementById(`next-${artistId}`);
+        const nextEl = document.getElementById(`next-${artist.id}`);
         if (nextEl) nextEl.textContent = 'Error';
       }
     }
