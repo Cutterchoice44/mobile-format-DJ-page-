@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cutters Choice DJs</title>
+
+  <!-- Bebas Neue font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
+    rel="stylesheet"
+  >
+
+ <style>
+  :root {
+    --brand-teal:   #5A8785;
+    --bg-dark:      #000;
+    --text-light:  #fafafa;
+    --gap:          1rem;
+  }
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    background: var(--bg-dark);
+    color: var(--text-light);
+    font-family: Arial, sans-serif;
+    line-height: 1.4;
+  }
+  header {
+    background: url('https://i.imgur.com/JHiiSW4.png') center/cover no-repeat;
+    border-bottom: 5px solid var(--brand-teal);
+    position: relative;
+    padding: 0.8rem 0;
+    text-align: center;
+  }
+  header img.logo {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 160px;
+  }
+  header img.left  { left: 1rem; }
+  header img.right { right: 1rem; }
+  header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 6rem;
+    color: #fff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ─── DJ GRID ─────────────────────────────────────────────────────────────── */
+  #artists-container {
+    display: grid;
+    /* exactly six equal columns at full width */
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--gap);
+    padding: var(--gap);
+    width: 100%;
+  }
+  /* fallback at smaller widths */
+  @media (max-width: 1200px) {
+    #artists-container { grid-template-columns: repeat(4, 1fr); }
+  }
+  @media (max-width:  900px) {
+    #artists-container { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width:  600px) {
+    #artists-container { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width:  400px) {
+    #artists-container { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    border: 2px solid var(--brand-teal);
+    background: var(--bg-dark);
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    overflow: hidden;
+  }
+  .card h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--brand-teal);
+    font-size: 2.10rem;
+    text-transform: uppercase;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--brand-teal);
+  }
+  .card img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+  .card .next-show {
+    padding: 0.75rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .card .next-show h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+  }
+  .card .next-show p {
+    font-size: 0.85rem;
+    line-height: 1.2;
+  }
+
+  .error {
+    text-align: center;
+    color: #f55;
+    margin-top: 2rem;
+  }
+</style>
+
+</head>
+
+<body>
+  <header>
+    <img src="https://i.imgur.com/72gdPJY.png" alt="Logo" class="logo left">
+    <h1>Cutters Choice DJs</h1>
+    <img src="https://i.imgur.com/72gdPJY.png" alt="Logo" class="logo right">
+  </header>
+
+  <main>
+    <div id="artists-container"></div>
+    <p id="error" class="error" style="display:none;"></p>
+  </main>
+
+  <script>
+    const BASE_URL   = 'https://api.radiocult.fm/api';
+    const STATION_ID = 'cutters-choice-radio';
+    const API_KEY    = 'pk_0b8abc6f834b444f949f727e88a728e0';
+
+    function normalizeTags(tags) {
+      if (Array.isArray(tags)) return tags.map(t => String(t).toLowerCase());
+      if (typeof tags === 'string')
+        return tags.split(',').map(t => t.trim().toLowerCase());
+      return [];
+    }
+
+    async function loadArtists() {
+      try {
+        const res = await fetch(
+          `${BASE_URL}/station/${STATION_ID}/artists`,
+          { headers: { 'x-api-key': API_KEY } }
+        );
+        if (!res.ok) throw new Error(`API returned ${res.status}`);
+
+        const { artists = [] } = await res.json();
+        const visible = artists.filter(a =>
+          normalizeTags(a.tags).includes('website')
+        );
+
+        const container = document.getElementById('artists-container');
+        if (visible.length === 0) {
+          const err = document.getElementById('error');
+          err.textContent = 'No DJs found with the "website" tag.';
+          err.style.display = 'block';
+          return;
+        }
+        container.innerHTML = '';
+
+        visible.forEach(artist => {
+          const card = document.createElement('a');
+          card.href = `index_IND_DJ.html?id=${artist.id}`;
+          card.className = 'card';
+
+          const title = document.createElement('h2');
+          title.textContent = artist.name;
+          card.appendChild(title);
+
+          const img = document.createElement('img');
+          img.src = artist.logo?.['512x512'] || artist.logo?.default || '';
+          img.alt = artist.name;
+          card.appendChild(img);
+
+          const show = document.createElement('div');
+          show.className = 'next-show';
+          show.innerHTML = `
+            <h3>Next Scheduled Show</h3>
+            <p id="next-${artist.id}">Loading…</p>
+          `;
+          card.appendChild(show);
+
+          container.appendChild(card);
+          loadNextShow(artist.id);
+        });
+      } catch (err) {
+        console.error('Error loading artists:', err);
+        const e = document.getElementById('error');
+        e.textContent = 'Error loading DJs: ' + err.message;
+        e.style.display = 'block';
+      }
+    }
+
+    async function loadNextShow(artistId) {
+      try {
+        const now     = new Date().toISOString();
+        const oneYear = new Date(Date.now() + 365*24*60*60*1000).toISOString();
+        const url     = `${BASE_URL}/station/${STATION_ID}/artists/${artistId}/schedule?startDate=${now}&endDate=${oneYear}`;
+
+        const res = await fetch(url, { headers: { 'x-api-key': API_KEY } });
+        if (!res.ok) throw new Error(`Schedule API returned ${res.status}`);
+
+        const { schedules = [] } = await res.json();
+        const nextEl = document.getElementById(`next-${artistId}`);
+
+        if (schedules.length > 0) {
+          const dt = new Date(schedules[0].startDateUtc);
+          nextEl.textContent = dt.toLocaleString('en-NZ', {
+            day: 'numeric',
+            month: 'short',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+        } else {
+          nextEl.textContent = 'TBA';
+        }
+      } catch (err) {
+        console.error(`Error loading schedule for ${artistId}:`, err);
+        const nextEl = document.getElementById(`next-${artistId}`);
+        if (nextEl) nextEl.textContent = 'Error';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadArtists);
+  </script>
+</body>
+</html>
