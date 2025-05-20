@@ -11,117 +11,146 @@
     rel="stylesheet"
   >
 
- <style>
-  :root {
-    --brand-teal:   #5A8785;
-    --bg-dark:      #000;
-    --text-light:  #fafafa;
-    --gap:          1rem;
-  }
-  *, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  body {
-    background: var(--bg-dark);
-    color: var(--text-light);
-    font-family: Arial, sans-serif;
-    line-height: 1.4;
-  }
-  header {
-    background: url('https://i.imgur.com/JHiiSW4.png') center/cover no-repeat;
-    border-bottom: 5px solid var(--brand-teal);
-    position: relative;
-    padding: 0.8rem 0;
-    text-align: center;
-  }
-  header img.logo {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 160px;
-  }
-  header img.left  { left: 1rem; }
-  header img.right { right: 1rem; }
-  header h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 6rem;
-    color: #fff;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
+  <style>
+    :root {
+      --brand-teal:   #5A8785;
+      --bg-dark:      #000;
+      --text-light:   #fafafa;
+      --gap:          1rem;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: var(--bg-dark);
+      color: var(--text-light);
+      font-family: Arial, sans-serif;
+      line-height: 1.4;
+    }
+    header {
+      background: url('https://i.imgur.com/JHiiSW4.png') center/cover no-repeat;
+      border-bottom: 5px solid var(--brand-teal);
+      position: relative;
+      padding: 0.8rem 0;
+      text-align: center;
+    }
+    header img.logo {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 160px;
+    }
+    header img.left  { left: 1rem; }
+    header img.right { right: 1rem; }
+    header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 6rem;
+      color: #fff;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
 
-  /* ─── DJ GRID ─────────────────────────────────────────────────────────────── */
-  #artists-container {
-    display: grid;
-    /* exactly six equal columns at full width */
-    grid-template-columns: repeat(6, 1fr);
-    gap: var(--gap);
-    padding: var(--gap);
-    width: 100%;
-  }
-  /* fallback at smaller widths */
-  @media (max-width: 1200px) {
-    #artists-container { grid-template-columns: repeat(4, 1fr); }
-  }
-  @media (max-width:  900px) {
-    #artists-container { grid-template-columns: repeat(3, 1fr); }
-  }
-  @media (max-width:  600px) {
-    #artists-container { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width:  400px) {
-    #artists-container { grid-template-columns: 1fr; }
-  }
+    /* ─── DJ GRID DESKTOP & TABLET ───────────────────────────────────────── */
+    #artists-container {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: var(--gap);
+      padding: var(--gap);
+      width: 100%;
+    }
+    @media (max-width: 1200px) {
+      #artists-container { grid-template-columns: repeat(4, 1fr); }
+    }
+    @media (max-width: 900px) {
+      #artists-container { grid-template-columns: repeat(3, 1fr); }
+    }
 
-  .card {
-    border: 2px solid var(--brand-teal);
-    background: var(--bg-dark);
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    overflow: hidden;
-  }
-  .card h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    color: var(--brand-teal);
-    font-size: 2.10rem;
-    text-transform: uppercase;
-    padding: 0.5rem;
-    border-bottom: 1px solid var(--brand-teal);
-  }
-  .card img {
-    width: 100%;
-    aspect-ratio: 1/1;
-    object-fit: cover;
-  }
-  .card .next-show {
-    padding: 0.75rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .card .next-show h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-    color: var(--text-light);
-  }
-  .card .next-show p {
-    font-size: 0.85rem;
-    line-height: 1.2;
-  }
+    /* ─── MOBILE OVERRIDES (<=600px) ─────────────────────────────────────── */
+    @media (max-width: 600px) {
+      /* Condense header */
+      header {
+        padding: 0.4rem 0;
+      }
+      /* Single-line title */
+      header h1 {
+        font-size: 3rem;
+        white-space: nowrap;
+      }
+      /* Show only one logo: hide right, center left */
+      header img.left {
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      header img.right { display: none; }
 
-  .error {
-    text-align: center;
-    color: #f55;
-    margin-top: 2rem;
-  }
-</style>
+      /* Four tight columns for cards on mobile */
+      #artists-container {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 0.5rem;
+        padding: 0.5rem;
+      }
+      /* Smaller card text and headings */
+      .card {
+        font-size: 0.9rem;
+      }
+      .card h2 {
+        font-size: 1.4rem;
+        padding: 0.25rem;
+      }
+      .card .next-show {
+        padding: 0.5rem;
+      }
+    }
 
+    /* ─── CARD STYLES ──────────────────────────────────────────────────────── */
+    .card {
+      border: 2px solid var(--brand-teal);
+      background: var(--bg-dark);
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      overflow: hidden;
+    }
+    .card h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      color: var(--brand-teal);
+      font-size: 2.1rem;
+      text-transform: uppercase;
+      padding: 0.5rem;
+      border-bottom: 1px solid var(--brand-teal);
+    }
+    .card img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+    }
+    .card .next-show {
+      padding: 0.75rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .card .next-show h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      color: var(--text-light);
+    }
+    .card .next-show p {
+      font-size: 0.85rem;
+      line-height: 1.2;
+    }
+
+    .error {
+      text-align: center;
+      color: #f55;
+      margin-top: 2rem;
+    }
+  </style>
 </head>
 
 <body>
