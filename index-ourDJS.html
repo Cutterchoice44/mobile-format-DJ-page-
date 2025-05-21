@@ -44,6 +44,7 @@
       top: 50%;
       transform: translateY(-50%);
       width: 160px;
+      z-index: 1;
     }
     header img.left  { left: 1rem; }
     header img.right { right: 1rem; }
@@ -54,6 +55,8 @@
       letter-spacing: 2px;
       text-transform: uppercase;
       line-height: 1;
+      position: relative;
+      z-index: 2;
     }
 
     /* ─── GRID BREAKPOINTS ─────────────────────────────────────────────────── */
@@ -121,22 +124,25 @@
       header {
         padding: 0.4rem 0;
       }
-      /* shrink title */
+      /* shrink title and ensure it's above logos */
       header h1 {
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
+        font-size: 1.5rem !important;
+        margin: 0.5rem 0 !important;
+        position: relative !important;
+        z-index: 2 !important;
       }
       /* hide left logo */
       header img.left {
         display: none !important;
       }
-      /* push right logo below title */
+      /* push right logo below title and behind it */
       header img.right {
         position: static !important;
         transform: none !important;
         display: block !important;
         margin: 0 auto 0.5rem !important;
-        width: 80px !important;
+        width: 60px !important;
+        z-index: 1 !important;
       }
 
       /* grid tweaks */
