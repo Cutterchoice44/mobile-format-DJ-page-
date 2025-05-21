@@ -37,6 +37,7 @@
       border-bottom: 5px solid var(--brand-teal);
       padding: 0.8rem 0;
       text-align: center;
+      overflow: visible;
     }
     header img.logo {
       position: absolute;
@@ -52,6 +53,7 @@
       color: #fff;
       letter-spacing: 2px;
       text-transform: uppercase;
+      line-height: 1;
     }
 
     /* ─── GRID BREAKPOINTS ─────────────────────────────────────────────────── */
@@ -85,11 +87,13 @@
       text-transform: uppercase;
       padding: 0.5rem;
       border-bottom: 1px solid var(--brand-teal);
+      margin: 0;
     }
     .card img {
       width: 100%;
       aspect-ratio: 1/1;
       object-fit: cover;
+      display: block;
     }
     .card .next-show {
       padding: 0.75rem;
@@ -102,36 +106,42 @@
       font-family: 'Bebas Neue', sans-serif;
       font-size: 0.9rem;
       text-transform: uppercase;
-      margin-bottom: 0.5rem;
+      margin: 0 0 0.5rem;
       color: var(--text-light);
     }
     .card .next-show p {
       font-size: 0.85rem;
       line-height: 1.2;
+      margin: 0;
     }
 
-    /* ─── MOBILE OVERRIDES (<=600px) ─────────────────────────────────────── */
+    /* ─── MOBILE OVERRIDES (≤600px) ─────────────────────────────────────── */
     @media (max-width: 600px) {
-      /* tighten up header */
+      /* tighten header padding */
       header {
-        padding: 0.6rem 0;
+        padding: 0.4rem 0;
       }
+      /* shrink title */
       header h1 {
-        font-size: 3rem;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
       }
-
-      /* **NEW**: hide the left logo only on mobile */
+      /* hide left logo */
       header img.left {
         display: none !important;
       }
-      /* resize the remaining logo */
-      header img.logo {
-        width: 120px;
+      /* push right logo below title */
+      header img.right {
+        position: static !important;
+        transform: none !important;
+        display: block !important;
+        margin: 0 auto 0.5rem !important;
+        width: 80px !important;
       }
 
       /* grid tweaks */
       #artists-container {
-        grid-template-columns: repeat(3, 1fr) !important;
+        grid-template-columns: repeat(2, 1fr) !important;
         gap: 0.5rem;
         padding: 0.5rem;
       }
