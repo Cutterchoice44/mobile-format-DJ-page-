@@ -59,8 +59,7 @@
       z-index: 2;
     }
 
-   
-    /* ─── GRID BREAKPOINTS ─────────────────────────────────────────────────── */
+   /* ─── GRID BREAKPOINTS ─────────────────────────────────────────────────── */
     #artists-container {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
@@ -76,6 +75,12 @@
     @media (max-width: 900px) {
       #artists-container {
         grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    /* ─── PHONES ONLY: 4 columns ─────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      #artists-container {
+        grid-template-columns: repeat(4, 1fr) !important;
       }
     }
     /* ─── CARD STYLES ──────────────────────────────────────────────────────── */
@@ -147,13 +152,7 @@
         margin: 0 auto 0.5rem !important;
         width: 60px !important;
         z-index: 1 !important;
-        }
-
-     /* grid tweaks */
-      #artists-container {
-        grid-template-columns: repeat(4, 1fr) !important;
-        gap: 0.5rem;
-        padding: 0.5rem;
+     
       }
       .card h2 {
         font-size: 0.8rem;
