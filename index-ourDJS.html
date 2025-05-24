@@ -77,12 +77,7 @@
         grid-template-columns: repeat(3, 1fr);
       }
     }
-    /* ─── PHONES ONLY: 4 columns ─────────────────────────────────────────── */
-    @media (max-width: 600px) {
-      #artists-container {
-        grid-template-columns: repeat(4, 1fr) !important;
-      }
-    }
+    
     /* ─── CARD STYLES ──────────────────────────────────────────────────────── */
     .card {
       border: 2px solid var(--brand-teal);
@@ -152,7 +147,13 @@
         margin: 0 auto 0.5rem !important;
         width: 60px !important;
         z-index: 1 !important;
-     
+        
+        /* grid tweaks */
+      #artists-container {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0.5rem;
+        padding: 0.5rem;
+
       }
       .card h2 {
         font-size: 0.8rem;
