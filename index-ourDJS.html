@@ -73,7 +73,14 @@
     @media (max-width: 900px) {
       #artists-container { grid-template-columns: repeat(3, 1fr); }
     }
-
+/* ─── PHONES ONLY: 4 columns (instead of 2) ─────────────────────────── */
+@media (max-width: 600px) {
+  #artists-container {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: var(--gap);
+    padding: var(--gap);
+  }
+}
     /* ─── CARD STYLES ──────────────────────────────────────────────────────── */
     .card {
       border: 2px solid var(--brand-teal);
