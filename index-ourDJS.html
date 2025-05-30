@@ -10,7 +10,7 @@
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
     rel="stylesheet"
   >
-  <!-- FontAwesome (for the social icons in the nav) -->
+  <!-- FontAwesome (for the social icons) -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -38,13 +38,42 @@
       line-height: 1.4;
     }
 
-    /* ─── NAVIGATION BAR ─────────────────────────────────────────────────── */
+    /* ─── HEADER ───────────────────────────────────────────────────────────── */
+    header {
+      position: relative;
+      background: url('/images/bricks.png') center/cover no-repeat;
+      border-bottom: 5px solid var(--brand-teal);
+      padding: 0.8rem 0;
+      text-align: center;
+      overflow: visible;
+    }
+    header img.logo {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 130px;
+      z-index: 1;
+    }
+    header img.left  { left: 1rem; }
+    header img.right { right: 1rem; }
+    header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 6rem;
+      color: #fff;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      line-height: 1;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ─── NAVIGATION BAR (DIRECTLY UNDER HEADER) ──────────────────────────── */
     #main-nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
       background: var(--brand-teal);
-      padding: 0.5rem 1rem;
+      padding: 0.4rem 1rem;
       border-bottom: 4px solid #fff;
     }
     #main-nav .nav-item a {
@@ -78,35 +107,6 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-    }
-
-    /* ─── HEADER ───────────────────────────────────────────────────────────── */
-    header {
-      position: relative;
-      background: url('/images/bricks.png') center/cover no-repeat;
-      border-bottom: 5px solid var(--brand-teal);
-      padding: 0.8rem 0;
-      text-align: center;
-      overflow: visible;
-    }
-    header img.logo {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 130px;
-      z-index: 1;
-    }
-    header img.left  { left: 1rem; }
-    header img.right { right: 1rem; }
-    header h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 6rem;
-      color: #fff;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      line-height: 1;
-      position: relative;
-      z-index: 2;
     }
 
     /* ─── GRID BREAKPOINTS ─────────────────────────────────────────────────── */
@@ -225,13 +225,20 @@
 </head>
 
 <body>
-  <!-- ─── NAVIGATION BAR INSERTED HERE ───────────────────────────────────── -->
+  <!-- ─── HEADER (BLACK BANNER WITH LOGOS + TITLE) ────────────────────────── -->
+  <header>
+    <img src="/images/logo.png" alt="Logo" class="logo left">
+    <h1>Cutters Choice DJs</h1>
+    <img src="/images/logo.png" alt="Logo" class="logo right">
+  </header>
+
+  <!-- ─── NAVIGATION BAR (NOW BELOW THE HEADER) ──────────────────────────── -->
   <nav id="main-nav">
     <div class="nav-item nav-left">
       <a href="index.html">HOME</a>
     </div>
     <div class="nav-item nav-center">
-      <a href="our-story.html">OUR STORY</a>
+      <a href="DJs.html">THE DJs</a>
     </div>
     <div class="nav-item nav-right">
       <a href="merch.html">MERCH</a>
@@ -244,12 +251,7 @@
     </div>
   </nav>
 
-  <header>
-    <img src="/images/logo.png" alt="Logo" class="logo left">
-    <h1>Cutters Choice DJs</h1>
-    <img src="/images/logo.png" alt="Logo" class="logo right">
-  </header>
-
+  <!--------------------------- MAIN CONTENT ----------------------------->
   <main>
     <div id="artists-container"></div>
     <p id="error" class="error" style="display:none;"></p>
