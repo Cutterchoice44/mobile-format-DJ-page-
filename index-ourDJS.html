@@ -10,13 +10,21 @@
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
     rel="stylesheet"
   >
+  <!-- FontAwesome (for the social icons in the nav) -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-papVjzx2kwRr2jD+M6jXwHzB+vOavVxI1x5nC0Kp4xQkn8kDjgkZJ+6o7tXf3UcZ5TrTpdyja6a0bTnzlAAKlg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  >
 
   <style>
     :root {
       --brand-teal: #5A8785;
-      --bg-dark:   #000;
-      --text-light:#fafafa;
-      --gap:       1rem;
+      --bg-dark:    #000;
+      --text-light: #fafafa;
+      --gap:        1rem;
     }
     *, *::before, *::after {
       margin: 0;
@@ -28,6 +36,48 @@
       color: var(--text-light);
       font-family: Arial, sans-serif;
       line-height: 1.4;
+    }
+
+    /* ─── NAVIGATION BAR ─────────────────────────────────────────────────── */
+    #main-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--brand-teal);
+      padding: 0.5rem 1rem;
+      border-bottom: 4px solid #fff;
+    }
+    #main-nav .nav-item a {
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      padding: 0.25rem 0.5rem;
+    }
+    #main-nav .nav-left,
+    #main-nav .nav-center {
+      flex: 1;
+    }
+    #main-nav .nav-left a {
+      display: inline-block;
+    }
+    #main-nav .nav-center {
+      text-align: center;
+    }
+    #main-nav .nav-center a {
+      display: inline-block;
+    }
+    #main-nav .nav-right {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    #main-nav .social-icon {
+      font-size: 1.1rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     /* ─── HEADER ───────────────────────────────────────────────────────────── */
@@ -59,7 +109,7 @@
       z-index: 2;
     }
 
-   /* ─── GRID BREAKPOINTS ─────────────────────────────────────────────────── */
+    /* ─── GRID BREAKPOINTS ─────────────────────────────────────────────────── */
     #artists-container {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
@@ -67,17 +117,12 @@
       padding: var(--gap);
       width: 100%;
     }
-    @media (max-width: 1200px) {
+    @media (max-width: 600px) {
       #artists-container {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(4, 1fr) !important;
       }
     }
-    @media (max-width: 900px) {
-      #artists-container {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-    
+
     /* ─── CARD STYLES ──────────────────────────────────────────────────────── */
     .card {
       border: 2px solid var(--brand-teal);
@@ -147,13 +192,13 @@
         margin: 0 auto 0.5rem !important;
         width: 60px !important;
         z-index: 1 !important;
-        
-        /* grid tweaks */
+      }
+
+      /* grid tweaks */
       #artists-container {
-        grid-template-columns: repeat(3, 1fr) !important;
+        grid-template-columns: repeat(2, 1fr) !important;
         gap: 0.5rem;
         padding: 0.5rem;
-
       }
       .card h2 {
         font-size: 0.8rem;
@@ -180,6 +225,25 @@
 </head>
 
 <body>
+  <!-- ─── NAVIGATION BAR INSERTED HERE ───────────────────────────────────── -->
+  <nav id="main-nav">
+    <div class="nav-item nav-left">
+      <a href="index.html">HOME</a>
+    </div>
+    <div class="nav-item nav-center">
+      <a href="our-story.html">OUR STORY</a>
+    </div>
+    <div class="nav-item nav-right">
+      <a href="merch.html">MERCH</a>
+      <a href="https://facebook.com/cutterschoiceradio" target="_blank" class="social-icon">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="https://instagram.com/cutterschoiceradio" target="_blank" class="social-icon">
+        <i class="fab fa-instagram"></i>
+      </a>
+    </div>
+  </nav>
+
   <header>
     <img src="/images/logo.png" alt="Logo" class="logo left">
     <h1>Cutters Choice DJs</h1>
