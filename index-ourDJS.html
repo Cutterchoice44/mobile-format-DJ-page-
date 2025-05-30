@@ -10,7 +10,7 @@
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
     rel="stylesheet"
   >
-  <!-- FontAwesome (for the social icons) -->
+  <!-- FontAwesome (for the social icons in the nav) -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -38,7 +38,7 @@
       line-height: 1.4;
     }
 
-    /* ─── HEADER ───────────────────────────────────────────────────────────── */
+    /* ─── HEADER (BLACK BANNER) ────────────────────────────────────────── */
     header {
       position: relative;
       background: url('/images/bricks.png') center/cover no-repeat;
@@ -67,47 +67,55 @@
       z-index: 2;
     }
 
-    /* ─── NAVIGATION BAR (DIRECTLY UNDER HEADER) ──────────────────────────── */
+    /* ─── NAVIGATION BAR (ONE-THIRD-EACH) ─────────────────────────────── */
     #main-nav {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
       background: var(--brand-teal);
-      padding: 0.4rem 1rem;
       border-bottom: 4px solid #fff;
+      /* no extra padding here—let each “third” fill fully */
     }
+    /* Give each nav-item exactly one-third of the width */
+    #main-nav .nav-item {
+      flex: 1;
+    }
+
+    /* Left section (OUR STORY) aligns its text to the left */
+    #main-nav .nav-left {
+      text-align: left;
+      padding-left: 1rem;
+    }
+    /* Center section (“THE DJs”) is centered */
+    #main-nav .nav-center {
+      text-align: center;
+    }
+    /* Right section (MERCH + icons) is flush right */
+    #main-nav .nav-right {
+      text-align: right;
+      padding-right: 1rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+    }
+
+    /* Style for all links in the nav */
     #main-nav .nav-item a {
       color: #fff;
       text-decoration: none;
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 1rem;
+      /* Match the screenshot’s nav font size—adjust as needed */
+      font-size: 1.25rem;
       letter-spacing: 1px;
-      padding: 0.25rem 0.5rem;
+      padding: 0.25rem 0; /* vertical padding only */
     }
-    #main-nav .nav-left,
-    #main-nav .nav-center {
-      flex: 1;
-    }
-    #main-nav .nav-left a {
-      display: inline-block;
-    }
-    #main-nav .nav-center {
-      text-align: center;
-    }
-    #main-nav .nav-center a {
-      display: inline-block;
-    }
-    #main-nav .nav-right {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
+
+    /* Slightly smaller icons so they don’t overpower the text */
     #main-nav .social-icon {
-      font-size: 1.1rem;
+      font-size: 1rem;
       display: inline-flex;
       align-items: center;
       justify-content: center;
     }
+
 
     /* ─── GRID BREAKPOINTS ─────────────────────────────────────────────────── */
     #artists-container {
@@ -173,7 +181,7 @@
       header {
         padding: 0.4rem 0;
       }
-      /* shrink title and ensure it's above logos */
+      /* shrink title and ensure it’s above logos */
       header h1 {
         font-size: 1.5rem !important;
         margin: 0.5rem 0 !important;
@@ -184,7 +192,7 @@
       header img.left {
         display: none !important;
       }
-      /* push right logo below title and behind it */
+      /* push right logo below title */
       header img.right {
         position: static !important;
         transform: none !important;
@@ -194,7 +202,15 @@
         z-index: 1 !important;
       }
 
-      /* grid tweaks */
+      /* NAV: reduce font-size slightly on very small screens */
+      #main-nav .nav-item a {
+        font-size: 1.1rem;
+      }
+      #main-nav .social-icon {
+        font-size: 0.9rem;
+      }
+
+      /* grid tweaks for cards */
       #artists-container {
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 0.5rem;
@@ -232,13 +248,13 @@
     <img src="/images/logo.png" alt="Logo" class="logo right">
   </header>
 
-  <!-- ─── NAVIGATION BAR (NOW BELOW THE HEADER) ──────────────────────────── -->
+  <!-- ─── NAVIGATION BAR (THREE TURNS, EVENLY SPACED) ──────────────────────── -->
   <nav id="main-nav">
     <div class="nav-item nav-left">
-      <a href="index.html">HOME</a>
+      <a href="our-story.html">OUR STORY</a>
     </div>
     <div class="nav-item nav-center">
-      <a href="DJs.html">THE DJs</a>
+      <a href="DJs.html">OUR DJs</a>
     </div>
     <div class="nav-item nav-right">
       <a href="merch.html">MERCH</a>
