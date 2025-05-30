@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cutters Choice DJs</title>
 
   <!-- Bebas Neue font -->
@@ -10,7 +10,7 @@
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
     rel="stylesheet"
   >
-  <!-- FontAwesome (for the social icons in the nav) -->
+  <!-- FontAwesome (for the social icons) -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -38,7 +38,7 @@
       line-height: 1.4;
     }
 
-    /* ─── HEADER (BLACK BANNER) ────────────────────────────────────────── */
+    /* ─── HEADER (BLACK BANNER WITH LOGOS + TITLE) ────────────────────────── */
     header {
       position: relative;
       background: url('/images/bricks.png') center/cover no-repeat;
@@ -54,7 +54,7 @@
       width: 130px;
       z-index: 1;
     }
-    header img.left  { left: 1rem; }
+    header img.left  { left: 1rem;  }
     header img.right { right: 1rem; }
     header h1 {
       font-family: 'Bebas Neue', sans-serif;
@@ -67,55 +67,50 @@
       z-index: 2;
     }
 
-    /* ─── NAVIGATION BAR (ONE-THIRD-EACH) ─────────────────────────────── */
+    /* ─── NAVIGATION BAR (ONE-THIRD-EACH, LARGER FONT) ──────────────────── */
     #main-nav {
       display: flex;
       background: var(--brand-teal);
       border-bottom: 4px solid #fff;
-      /* no extra padding here—let each “third” fill fully */
+      /* Slightly taller so text is vertically centered */
+      padding: 0.75rem 1rem;
     }
-    /* Give each nav-item exactly one-third of the width */
+    /* Each .nav-item gets exactly one-third of the width */
     #main-nav .nav-item {
       flex: 1;
     }
-
-    /* Left section (OUR STORY) aligns its text to the left */
+    /* Left third: OUR STORY (left-aligned) */
     #main-nav .nav-left {
       text-align: left;
       padding-left: 1rem;
     }
-    /* Center section (“THE DJs”) is centered */
+    /* Center third: OUR DJS (centered) */
     #main-nav .nav-center {
       text-align: center;
     }
-    /* Right section (MERCH + icons) is flush right */
+    /* Right third: MERCH + icons (right-aligned) */
     #main-nav .nav-right {
       text-align: right;
       padding-right: 1rem;
       display: flex;
       justify-content: flex-end;
+      align-items: center;
       gap: 0.5rem;
     }
-
     /* Style for all links in the nav */
     #main-nav .nav-item a {
       color: #fff;
       text-decoration: none;
       font-family: 'Bebas Neue', sans-serif;
-      /* Match the screenshot’s nav font size—adjust as needed */
-      font-size: 1.25rem;
+      font-size: 1.5rem;       /* bigger than before */
       letter-spacing: 1px;
-      padding: 0.25rem 0; /* vertical padding only */
+      line-height: 1;          /* ensures proper vertical centering */
     }
-
-    /* Slightly smaller icons so they don’t overpower the text */
+    /* Slightly smaller icons so they’re in proportion */
     #main-nav .social-icon {
-      font-size: 1rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      font-size: 1.25rem;
+      line-height: 1;
     }
-
 
     /* ─── GRID BREAKPOINTS ─────────────────────────────────────────────────── */
     #artists-container {
@@ -203,11 +198,14 @@
       }
 
       /* NAV: reduce font-size slightly on very small screens */
+      #main-nav {
+        padding: 0.5rem 0.75rem;
+      }
       #main-nav .nav-item a {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
       }
       #main-nav .social-icon {
-        font-size: 0.9rem;
+        font-size: 1rem;
       }
 
       /* grid tweaks for cards */
@@ -248,13 +246,13 @@
     <img src="/images/logo.png" alt="Logo" class="logo right">
   </header>
 
-  <!-- ─── NAVIGATION BAR (THREE TURNS, EVENLY SPACED) ──────────────────────── -->
+  <!-- ─── NAVIGATION BAR (THREE EQUAL SECTIONS, LARGE FONT) ──────────────── -->
   <nav id="main-nav">
     <div class="nav-item nav-left">
       <a href="our-story.html">OUR STORY</a>
     </div>
     <div class="nav-item nav-center">
-      <a href="DJs.html">OUR DJs</a>
+      <a href="DJs.html">OUR DJS</a>
     </div>
     <div class="nav-item nav-right">
       <a href="merch.html">MERCH</a>
@@ -344,7 +342,7 @@
         if (!res.ok) throw new Error(`Schedule API returned ${res.status}`);
 
         const { schedules = [] } = await res.json();
-        const el = document.getElementById(`next-${artistId}`);
+        const el = document.getElementById(`next-${artist.id}`);
         if (el) {
           if (schedules.length) {
             const dt = new Date(schedules[0].startDateUtc);
@@ -357,7 +355,7 @@
         }
       } catch (err) {
         console.error(`Error loading schedule for ${artistId}:`, err);
-        const el = document.getElementById(`next-${artistId}`);
+        const el = document.getElementById(`next-${artist.id}`);
         if (el) el.textContent = 'Error';
       }
     }
