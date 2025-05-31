@@ -305,7 +305,7 @@
         for (let artist of visible) {
           const card = document.createElement('a');
           card.className = 'card';
-          card.href = `index_IND_DJ.html?id=${artist.id}`;
+          card.href = `index_IND_DJ.html?id=${artistId}`;
 
           const title = document.createElement('h2');
           title.textContent = artist.name;
@@ -318,11 +318,11 @@
 
           const show = document.createElement('div');
           show.className = 'next-show';
-          show.innerHTML = `<h3>Next Scheduled Show</h3><p id="next-${artist.id}">Loading…</p>`;
+          show.innerHTML = `<h3>Next Scheduled Show</h3><p id="next-${artistId}">Loading…</p>`;
           card.append(show);
 
           container.append(card);
-          loadNextShow(artist.id);
+          loadNextShow(artistId);
         }
       } catch (err) {
         console.error('Error loading artists:', err);
@@ -343,7 +343,7 @@
         if (!res.ok) throw new Error(`Schedule API returned ${res.status}`);
 
         const { schedules = [] } = await res.json();
-        const el = document.getElementById(`next-${artist.id}`);
+        const el = document.getElementById(`next-${artistId}`);
         if (el) {
           if (schedules.length) {
             const dt = new Date(schedules[0].startDateUtc);
@@ -356,7 +356,7 @@
         }
       } catch (err) {
         console.error(`Error loading schedule for ${artistId}:`, err);
-        const el = document.getElementById(`next-${artist.id}`);
+        const el = document.getElementById(`next-${artistId}`);
         if (el) el.textContent = 'Error';
       }
     }
